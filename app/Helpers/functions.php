@@ -75,7 +75,6 @@ if (!function_exists('setting')) {
 if (!function_exists('slugify')) {
     function slugify(string $text): string {
         $text = trim($text);
-        // دعم أفضل للحروف العربية والإنجليزية
         $text = preg_replace('/[^\p{L}\p{N}\s\-_]+/u', '', $text) ?? '';
         $text = preg_replace('/[\s\-_]+/u', '-', $text) ?? '';
         return trim($text, '-') ?: 'item-' . substr(bin2hex(random_bytes(4)), 0, 8);
@@ -98,28 +97,27 @@ if (!function_exists('sanitize_html')) {
     function sanitize_html(string $html): string {
         if (trim($html) === '') return '';
         
-        // إصلاح جذري للحروف العربية مع DOMDocument
-        $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
-        
-        $doc = new \DOMDocument('1.0', 'UTF-8');
+        $doc = new \DOMDocument();
         $prev = libxml_use_internal_errors(true);
         
-        // تحميل الكود مع الجذر لضمان عدم فقده
-        $doc->loadHTML('<div>' . $html . '</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        // حقن ميتا تاج UTF-8 لإجبار DOMDocument على قراءة النص العربي بشكل سليم
+        $wrapped = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body><div id="sanitize_root">' . $html . '</div></body></html>';
+        
+        $doc->loadHTML($wrapped, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         libxml_clear_errors();
         libxml_use_internal_errors($prev);
         
-        // مسح العناصر الخطرة (JavaScript و iframes الغير موثوقة)
+        // تنظيف العناصر الخطرة
         $dangerous = ['script','object','embed','meta','link','base'];
         foreach ($dangerous as $tag) {
             $nodes = $doc->getElementsByTagName($tag);
             while ($nodes->length > 0) {
                 $n = $nodes->item(0);
-                if ($n && $n->parentNode) $n->parentNode->removeChild($n);
+                if ($n->parentNode) $n->parentNode->removeChild($n);
             }
         }
         
-        // مسح iframes غير يوتيوب وفيميو
+        // السماح بـ iframes ليوتيوب وفيميو فقط
         $iframes = $doc->getElementsByTagName('iframe');
         $iframesToRemove = [];
         foreach ($iframes as $iframe) {
@@ -132,43 +130,33 @@ if (!function_exists('sanitize_html')) {
             if ($iframe->parentNode) $iframe->parentNode->removeChild($iframe);
         }
 
-        // تنظيف السمات الخطرة مثل onmouseover, onclick ...
+        // تنظيف الـ Attributes الخطرة مثل onClick
         $xpath = new \DOMXPath($doc);
         foreach ($xpath->query('//*') as $node) {
             if (!$node->attributes) continue;
             
-            // تحويل السمات لمصفوفة لمنع الأخطاء أثناء الحذف
             $attrs = [];
             foreach ($node->attributes as $attr) {
-                $attrs[] = $attr;
+                $attrs[] = $attr->name;
             }
             
-            foreach ($attrs as $attr) {
-                $name = strtolower($attr->name);
-                $val = (string) $attr->value;
-                if (str_starts_with($name, 'on')) { 
-                    $node->removeAttribute($attr->name); 
-                    continue; 
-                }
-                if (in_array($name, ['href','src','action','formaction','xlink:href'], true)) {
-                    if (preg_match('/^\s*(javascript|vbscript|data)\s*:/i', $val)) {
-                        $node->removeAttribute($attr->name);
-                    }
+            foreach ($attrs as $attrName) {
+                $name = strtolower($attrName);
+                $val = $node->getAttribute($attrName);
+                if (str_starts_with($name, 'on') || 
+                   (in_array($name, ['href','src']) && preg_match('/^\s*(javascript|vbscript|data)\s*:/i', $val))) {
+                    $node->removeAttribute($attrName);
                 }
             }
         }
         
-        // استخراج المحتوى النظيف
         $out = '';
-        $root = $doc->documentElement;
+        $root = $doc->getElementById('sanitize_root');
         if ($root) {
             foreach ($root->childNodes as $child) {
                 $out .= $doc->saveHTML($child);
             }
         }
-        
-        // إعادة تحويل الكود ليظهر كـ UTF-8 سليم في الداتابيز
-        $out = mb_convert_encoding($out, 'UTF-8', 'HTML-ENTITIES');
         
         return trim($out);
     }

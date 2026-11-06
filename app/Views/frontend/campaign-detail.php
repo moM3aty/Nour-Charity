@@ -7,7 +7,7 @@ $img = $campaign['image'] ?: 'https://placehold.co/1200x600/F4F7FA/061B52?text=C
 <style>
     .cd-layout { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start; margin-top: 20px; margin-bottom: 80px;}
     .cd-main { flex: 1; min-width: 60%; }
-    .cd-img { width: 100%; height: 450px; object-fit: cover; border-radius: 24px; margin-bottom: 30px; box-shadow: var(--shadow-sm); }
+    .cd-img { width: 100%;  object-fit: cover; border-radius: 24px; margin-bottom: 30px; box-shadow: var(--shadow-sm); }
     .cd-sidebar { width: 380px; position: sticky; top: 100px; }
     .cd-content-box { background: #fff; padding: 40px; border-radius: 24px; box-shadow: var(--shadow-md); border: 1px solid var(--border); }
     @media(max-width:992px){ .cd-sidebar {width: 100%; position:static;} }

@@ -15,9 +15,8 @@ $currentGroup = $_GET['group'] ?? 'general';
 
 <div class="admin-card" style="margin-bottom:25px; padding:15px 20px; border-radius: 16px;">
   <div style="display:flex; gap:12px; overflow-x:auto; scrollbar-width:none; padding-bottom: 5px;">
-    <?php $labels = ['general'=>'عام ومالي','brand'=>'الهوية البصرية','contact'=>'بيانات التواصل','social'=>'التواصل الاجتماعي','seo'=>'محركات البحث SEO','hero'=>'واجهة الموقع (Hero)','donations'=>'إعدادات التبرع']; ?>
+    <?php $labels = ['general'=>'عام ومالي','brand'=>'الهوية البصرية','contact'=>'بيانات التواصل','social'=>'التواصل الاجتماعي','seo'=>'محركات البحث SEO','donations'=>'إعدادات التبرع']; ?>
     <?php foreach (array_keys($schema) as $g): ?>
-      <!-- هنا تم إصلاح الرابط ليعمل بشكل سليم -->
       <a href="<?= e(url('admin/settings?group=' . urlencode($g))) ?>" class="btn <?= $g===$currentGroup?'btn-primary':'btn-outline-primary' ?>" 
          style="border-radius:12px; padding:12px 24px; white-space:nowrap; font-weight: 800;">
         <?= e($labels[$g] ?? $g) ?>
@@ -43,8 +42,6 @@ $currentGroup = $_GET['group'] ?? 'general';
             <input type="checkbox" name="<?= e($key) ?>" value="1" style="width:20px; height:20px; accent-color:var(--gold);" <?= $val==='1'?'checked':'' ?>>
             <span style="font-weight:800; color: var(--primary); margin:0;">تفعيل الخاصية</span>
           </label>
-        <?php elseif ($type === 'color'): ?>
-          <input type="color" name="<?= e($key) ?>" value="<?= e($val ?: '#000000') ?>" style="width:100%; height: 50px; padding:5px; border-radius: 12px; border: 1px solid #e2e8f0;">
         <?php elseif ($type === 'image'): ?>
           <input type="hidden" name="<?= e($key) ?>_existing" value="<?= e($val) ?>">
           <input type="file" class="form-control" name="<?= e($key) ?>" accept="image/*" style="background:#fff;">

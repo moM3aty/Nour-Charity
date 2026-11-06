@@ -3,61 +3,46 @@
 namespace App\Controllers\Admin;
 
 use App\Core\Controller;
-use App\Core\Database;
 use App\Core\Settings;
 use App\Core\Session;
 
 final class AdminSettingsController extends Controller
 {
-    /** All editable settings organized by group. */
     private function schema(): array
     {
         return [
             'general' => [
-                'site.name_ar'      => ['نص', 'text'],
-                'site.name_en'      => ['نص', 'text'],
-                'site.assoc_name_ar'=> ['اسم الجمعية', 'text'],
+                'site.name_ar'      => ['اسم الموقع (عربي)', 'text'],
+                'site.name_en'      => ['اسم الموقع (إنجليزي)', 'text'],
+                'site.assoc_name_ar'=> ['الاسم الرسمي للجمعية', 'text'],
                 'site.description'  => ['وصف الموقع', 'textarea'],
-                'site.currency'     => ['العملة', 'text'],
+                'site.currency'     => ['العملة (كود)', 'text'],
                 'site.currency_symbol' => ['رمز العملة', 'text'],
                 'maintenance.mode'  => ['وضع الصيانة', 'boolean'],
             ],
             'brand' => [
-                'site.logo'    => ['الشعار', 'image'],
-                'site.favicon' => ['Favicon', 'image'],
-                'brand.primary'   => ['اللون الأساسي', 'color'],
-                'brand.navy'      => ['اللون الداكن', 'color'],
-                'brand.secondary' => ['اللون الثانوي', 'color'],
-                'brand.ice'       => ['اللون الفاتح', 'color'],
-                'brand.gold'      => ['لون الذهبي', 'color'],
+                'site.logo'    => ['الشعار الأساسي', 'image'],
+                'site.favicon' => ['أيقونة المتصفح (Favicon)', 'image'],
             ],
             'contact' => [
-                'site.phone'    => ['الهاتف', 'text'],
-                'site.whatsapp' => ['واتساب', 'text'],
+                'site.phone'    => ['رقم الهاتف', 'text'],
+                'site.whatsapp' => ['رقم الواتساب', 'text'],
                 'site.email'    => ['البريد الإلكتروني', 'text'],
                 'site.address'  => ['العنوان', 'textarea'],
             ],
             'social' => [
-                'site.facebook'  => ['فيسبوك', 'text'],
-                'site.twitter'   => ['تويتر/X', 'text'],
-                'site.instagram' => ['إنستغرام', 'text'],
-                'site.youtube'   => ['يوتيوب', 'text'],
+                'site.facebook'  => ['رابط فيسبوك', 'text'],
+                'site.twitter'   => ['رابط منصة X (تويتر)', 'text'],
+                'site.instagram' => ['رابط إنستغرام', 'text'],
+                'site.youtube'   => ['رابط يوتيوب', 'text'],
             ],
             'seo' => [
-                'seo.default_title'       => ['عنوان SEO', 'text'],
-                'seo.default_description' => ['وصف SEO', 'textarea'],
-            ],
-            'hero' => [
-                'hero.title'              => ['عنوان الهيرو', 'text'],
-                'hero.description'        => ['وصف الهيرو', 'textarea'],
-                'hero.cta_primary_text'   => ['نص الزر الرئيسي', 'text'],
-                'hero.cta_primary_link'   => ['رابط الزر الرئيسي', 'text'],
-                'hero.cta_secondary_text' => ['نص الزر الثانوي', 'text'],
-                'hero.cta_secondary_link' => ['رابط الزر الثانوي', 'text'],
+                'seo.default_title'       => ['عنوان SEO الافتراضي', 'text'],
+                'seo.default_description' => ['وصف SEO الافتراضي', 'textarea'],
             ],
             'donations' => [
                 'donation.presets'      => ['المبالغ المقترحة (مفصولة بفاصلة)', 'text'],
-                'donation.instructions' => ['تعليمات التبرع', 'textarea'],
+                'donation.instructions' => ['تعليمات التبرع (تظهر في صفحة الدفع)', 'textarea'],
             ],
         ];
     }
@@ -83,33 +68,40 @@ final class AdminSettingsController extends Controller
     {
         $this->requireAuth('settings.manage');
         $this->requirePost();
+        
         $schema = $this->schema();
         $group = (string)$this->input('group', 'general');
-        if (!isset($schema[$group])) { $this->redirect('admin/settings'); }
+        if (!isset($schema[$group])) { 
+            $this->redirect('admin/settings'); 
+        }
 
         foreach ($schema[$group] as $key => $meta) {
+            $postKey = str_replace('.', '_', $key);
             $type = $meta[1];
+            
             if ($type === 'boolean') {
-                $val = (int)($this->input($key, 0)) ? '1' : '0';
+                $val = (int)($this->input($postKey, 0)) ? '1' : '0';
                 Settings::set($key, $val);
                 continue;
             }
+            
             if ($type === 'image') {
-                // upload optional
-                if (!empty($_FILES[$key]) && $_FILES[$key]['error'] === UPLOAD_ERR_OK) {
-                    $uploaded = store_public_upload($_FILES[$key], 'branding', config('uploads.allowed_images'));
+                if (!empty($_FILES[$postKey]) && $_FILES[$postKey]['error'] === UPLOAD_ERR_OK) {
+                    $uploaded = store_public_upload($_FILES[$postKey], 'branding', config('uploads.allowed_images'));
                     if ($uploaded) Settings::set($key, $uploaded);
                 } else {
-                    $keep = trim((string)$this->input($key . '_existing', ''));
+                    $keep = trim((string)$this->input($postKey . '_existing', ''));
                     if ($keep !== '') Settings::set($key, $keep);
                 }
                 continue;
             }
-            $val = (string)$this->input($key, '');
+            
+            $val = (string)$this->input($postKey, '');
             Settings::set($key, $val);
         }
-        \App\Core\AuditLog::record('settings.update', 'settings', 0, "Group: $group");
-        Session::flash('success', 'تم حفظ الإعدادات.');
+        
+        \App\Core\AuditLog::record('settings.update', 'settings', 0, "Group updated: $group");
+        Session::flash('success', 'تم حفظ وتحديث الإعدادات بنجاح.');
         $this->redirect('admin/settings?group=' . urlencode($group));
     }
 }

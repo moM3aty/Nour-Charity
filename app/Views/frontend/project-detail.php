@@ -9,7 +9,7 @@ $img =$project['cover_image'] ?: 'https://placehold.co/1200x600/F4F7FA/061B52?te
     .detail-layout { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start; margin-bottom: 80px; }
     .detail-main { flex: 1; min-width: 60%; }
     .detail-image-panel { padding: 0; overflow: hidden; margin-bottom: 30px; border-radius: 24px; box-shadow: var(--shadow-sm); }
-    .detail-cover-img { width: 100%; height: 500px; object-fit: cover; }
+    .detail-cover-img { width: 100%;  object-fit: cover; }
     
     .detail-badge { display: inline-block; background: #EAF2FF; color: var(--primary-light); padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 900; margin-bottom: 15px;}
     .detail-title { color: var(--primary); margin-bottom: 15px; font-size: 2.2rem; font-weight: 900; line-height: 1.4; }
