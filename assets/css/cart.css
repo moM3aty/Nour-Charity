@@ -1,0 +1,23 @@
+/* assets/css/cart.css */
+.cart-header { text-align: center; margin-bottom: 40px; }
+.cart-alert { max-width: 1000px; margin: 0 auto 20px; background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 12px; text-align: center; font-weight: 700; }
+.cart-layout { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 30px; align-items: flex-start; }
+.cart-main-panel { flex: 1.5; min-width: 60%; padding: 30px; }
+.cart-section-title { color: var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--bg-color); padding-bottom: 15px; }
+.cart-add-panel { background: var(--bg-color); padding: 25px; border-radius: 16px; margin-top: 30px; }
+.cart-add-title { font-weight: 800; color: var(--primary); margin-bottom: 15px; }
+.cart-add-row { display: flex; gap: 15px; flex-wrap: wrap; }
+.cart-sidebar { flex: 1; min-width: 350px; }
+.cart-sidebar-panel { padding: 30px; }
+.cart-total-label { font-size: 16px; color: var(--text-muted); margin-bottom: 5px; }
+.cart-total-amount { font-size: 36px; font-weight: 900; color: var(--primary-light); }
+.cart-info-title { font-weight: 800; color: var(--primary); margin-bottom: 20px; }
+.cart-input-group { margin-bottom: 15px; }
+.cart-submit-btn { box-shadow: 0 8px 25px rgba(9, 42, 158, 0.25); margin-top: 10px; }
+.cart-item { display:flex; justify-content:space-between; align-items:center; padding: 20px; background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 15px; transition: 0.3s; }
+.cart-item:hover { border-color: var(--primary-light); }
+.cart-item-icon-wrap { width: 48px; height: 48px; background: var(--bg-color); border-radius: 10px; display:flex; justify-content:center; align-items:center; color: var(--primary); }
+.cart-item-title { font-weight:800; font-size: 16px; color: var(--primary); }
+.cart-item-price { font-size:15px; font-weight: 700; color: var(--gold); }
+.cart-item-remove { background: #fee2e2; border:0; color:#dc2626; width: 36px; height: 36px; border-radius: 50%; cursor:pointer; display:flex; justify-content:center; align-items:center; transition: 0.2s; }
+.cart-item-remove:hover { background: #fca5a5; }

@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /storage
+Disallow: /app
+Disallow: /config
+Disallow: /database
+Disallow: /uploads/private
+
+Sitemap: https://nourcharity.com/sitemap.xml

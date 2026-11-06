@@ -1,0 +1,39 @@
+/* assets/css/pages.css */
+/* --- Profile Page --- */
+.profile-layout { display: flex; flex-wrap: wrap; gap: 30px; align-items: flex-start; }
+.profile-sidebar { width: 320px; text-align: center; }
+.profile-avatar { width: 100px; height: 100px; background: var(--primary-grad); color: #fff; font-size: 40px; font-weight: 900; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin: 0 auto 20px; box-shadow: 0 8px 20px rgba(9, 42, 158, 0.2); }
+.profile-name { font-size: 22px; font-weight: 900; color: var(--primary); margin-bottom: 5px; }
+.profile-email { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
+.profile-nav { display: flex; flex-direction: column; gap: 10px; text-align: right; }
+.profile-nav a { padding: 14px 20px; border-radius: 12px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 12px; transition: var(--transition); background: #f8fafc; }
+.profile-nav a:hover, .profile-nav a.active { background: var(--primary); color: #fff; }
+.profile-content { flex: 1; min-width: 60%; }
+.table-premium { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
+.table-premium th { text-align: right; padding: 0 20px 10px; color: var(--text-muted); font-size: 13px; font-weight: 700; border-bottom: 1px solid var(--border); }
+.table-premium td { padding: 20px; background: #fff; border: 1px solid var(--border); border-style: solid none; }
+.table-premium td:first-child { border-left-style: solid; border-radius: 0 16px 16px 0; }
+.table-premium td:last-child { border-right-style: solid; border-radius: 16px 0 0 16px; }
+.table-premium tr:hover td { border-color: var(--primary-light); }
+
+/* --- Contact & Forms --- */
+.contact-layout { display: flex; flex-wrap: wrap; gap: 40px; }
+.contact-info { flex: 1; min-width: 300px; background: var(--primary); color: #fff; padding: 40px; border-radius: var(--radius-lg); position: relative; overflow: hidden; }
+.contact-info::before { content: ''; position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: rgba(255,255,255,0.05); border-radius: 50%; }
+.contact-item { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 30px; font-size: 15px; }
+.contact-item-icon { width: 44px; height: 44px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; border-radius: 12px; color: var(--gold); flex-shrink: 0; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.form-full { grid-column: 1 / -1; }
+.page-alert { padding: 16px; border-radius: 12px; font-weight: 700; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+.page-alert.success { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+.page-alert.error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+.page-alert.info { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+
+/* --- Gift Page --- */
+.gift-card-preview { background: linear-gradient(135deg, #061B52, #092A9E); color: #fff; padding: 40px; border-radius: 20px; text-align: center; box-shadow: var(--shadow-md); position: relative; overflow: hidden; margin-bottom: 30px; }
+.gift-card-preview::after { content: '🎁'; font-size: 120px; position: absolute; opacity: 0.05; bottom: -20px; left: 20px; transform: rotate(-15deg); }
+
+@media (max-width: 992px) {
+  .profile-sidebar { width: 100%; }
+  .form-grid { grid-template-columns: 1fr; }
+}
