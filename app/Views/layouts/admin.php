@@ -12,6 +12,7 @@ function isActive($segment) { global $path; return str_contains($path, $segment)
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
+    <link rel="icon" href="<?= e(\App\Core\Settings::get('site.favicon', asset('images/logo.png'))) ?>" type="image/png">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="csrf-token" content="<?= CSRF::token() ?>">
@@ -30,8 +31,7 @@ function isActive($segment) { global $path; return str_contains($path, $segment)
         <!-- عرض اللوجو هنا بدلاً من النص -->
         <div class="sidebar-brand" style="display: flex; justify-content: center; padding: 20px 10px; background: rgba(0,0,0,0.1);">
             <a href="<?= e(url('admin/dashboard')) ?>">
-                <img src="<?= e(asset('images/logo.png')) ?>" alt="Logo" style="max-height: 85px; object-fit: contain; border-radius:15px;" onerror="this.src='https://placehold.co/150x50/061B52/FFF?text=Admin'">
-            </a>
+<img src="<?= e(\App\Core\Settings::get('site.logo', asset('images/logo.png'))) ?>" alt="Logo" style="max-height: 85px; object-fit: contain; border-radius:15px;"style="max-height: 55px; object-fit: contain;" onerror="this.src='https://placehold.co/150x50/061B52/FFF?text=Admin'">            </a>
         </div>
         
         <div class="sidebar-menu">

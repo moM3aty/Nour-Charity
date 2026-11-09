@@ -15,6 +15,7 @@ function navActive(string $p) {
 ?><!doctype html>
 <html lang="ar" dir="rtl">
 <head>
+    <link rel="icon" href="<?= e(\App\Core\Settings::get('site.favicon', asset('images/logo.png'))) ?>" type="image/png">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?= e($title) ?></title>
@@ -58,8 +59,8 @@ function navActive(string $p) {
   <div class="container">
     <div class="header-top">
       <a href="<?= e(url('/')) ?>" class="header-brand">
-        <img src="<?= e(asset('images/logo.png')) ?>" alt="Logo" onerror="this.src='https://placehold.co/150x50/061B52/FFF?text=Nour+Charity'">
-      </a>
+<img src="<?= e(\App\Core\Settings::get('site.logo', asset('images/logo.png'))) ?>" alt="Logo" onerror="this.src='https://placehold.co/150x50/061B52/FFF?text=Nour+Charity'">
+</a>
       
       <div class="header-actions">
         <div class="header-contact">

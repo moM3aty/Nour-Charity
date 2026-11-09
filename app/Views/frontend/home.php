@@ -24,13 +24,11 @@ function getWaterBottleSvg() {
     return '<svg class="cat-svg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">' . $defs . '<g ' . $style . '>' . $path . '</g></svg>';
 }
 ?>
-<link rel="stylesheet" href="<?= e(asset('css/home.css')) ?>?v=<?= time() ?>">
 <style>
     .heroSwiper { width: 100%; height: 90vh; min-height: 650px; border-radius: 0 0 60px 60px; overflow: hidden; margin-bottom: 70px; box-shadow: var(--shadow-lg); position: relative; background: #000; }
     .hero-bg-img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; z-index: 1; transform: scale(1.05); transition: transform 10s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 1s; filter: brightness(0.8); }
     .swiper-slide-active .hero-bg-img { transform: scale(1.15); filter: brightness(1); }
     .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(6, 27, 82, 0.95) 0%, rgba(9, 42, 158, 0.4) 50%, rgba(0, 0, 0, 0.2) 100%); z-index: 2; }
-    .hero-overlay::after { content: ''; position: absolute; inset: 0; background: url('https://www.transparenttextures.com/patterns/arabesque.png'); opacity: 0.05; z-index: 2; mix-blend-mode: overlay; }
     .hero-content { position: relative; z-index: 4; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; text-align: right; color: #fff; padding: 0 8%; max-width: 1200px; margin: 0 auto; }
     .hero-subtitle { font-size: 18px; font-weight: 900; background: rgba(244, 201, 120, 0.15); color: var(--gold); padding: 8px 24px; border-radius: 30px; margin-bottom: 20px; border: 1px solid rgba(244,201,120,0.3); backdrop-filter: blur(8px); transform: translateY(30px); opacity: 0; transition: all 1s ease 0.3s; }
     .hero-title { font-size: 4.5rem; font-weight: 900; line-height: 1.2; margin-bottom: 25px; text-shadow: 0 10px 30px rgba(0,0,0,0.4); max-width: 850px; transform: translateY(30px); opacity: 0; transition: all 1s ease 0.5s; }
